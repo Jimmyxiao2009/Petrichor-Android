@@ -1,0 +1,177 @@
+[
+  {
+    "slug": "discover",
+    "title": "发现",
+    "file": "design/android/discover.html"
+  },
+  {
+    "slug": "search",
+    "title": "搜索 · 节目结果",
+    "file": "design/android/search.html"
+  },
+  {
+    "slug": "search-songs",
+    "title": "搜索 · 单曲结果",
+    "file": "design/android/search-songs.html"
+  },
+  {
+    "slug": "podcasts",
+    "title": "播客",
+    "file": "design/android/podcasts.html"
+  },
+  {
+    "slug": "podcast",
+    "title": "播客详情",
+    "file": "design/android/podcast.html"
+  },
+  {
+    "slug": "library",
+    "title": "我的音乐",
+    "file": "design/android/library.html"
+  },
+  {
+    "slug": "library-guest",
+    "title": "我的 · 未登录",
+    "file": "design/android/library-guest.html"
+  },
+  {
+    "slug": "playlist",
+    "title": "歌单详情",
+    "file": "design/android/playlist.html"
+  },
+  {
+    "slug": "player",
+    "title": "正在播放",
+    "file": "design/android/player.html"
+  },
+  {
+    "slug": "lyrics",
+    "title": "同步歌词",
+    "file": "design/android/lyrics.html"
+  },
+  {
+    "slug": "queue",
+    "title": "播放队列",
+    "file": "design/android/queue.html"
+  },
+  {
+    "slug": "login",
+    "title": "手机验证码登录",
+    "file": "design/android/login.html"
+  },
+  {
+    "slug": "qr-login",
+    "title": "扫码登录",
+    "file": "design/android/qr-login.html"
+  },
+  {
+    "slug": "downloads",
+    "title": "本地与下载",
+    "file": "design/android/downloads.html"
+  },
+  {
+    "slug": "settings",
+    "title": "设置 · 动态取色",
+    "file": "design/android/settings.html"
+  },
+  {
+    "slug": "comments",
+    "title": "评论",
+    "file": "design/android/comments.html"
+  },
+  {
+    "slug": "replies",
+    "title": "评论回复",
+    "file": "design/android/replies.html"
+  },
+  {
+    "slug": "artist",
+    "title": "歌手详情",
+    "file": "design/android/artist.html"
+  },
+  {
+    "slug": "album",
+    "title": "专辑详情",
+    "file": "design/android/album.html"
+  },
+  {
+    "slug": "create-playlist",
+    "title": "新建歌单",
+    "file": "design/android/create-playlist.html"
+  },
+  {
+    "slug": "track-menu",
+    "title": "歌曲长按菜单",
+    "file": "design/android/track-menu.html"
+  },
+  {
+    "slug": "choose-playlist",
+    "title": "收藏到歌单",
+    "file": "design/android/choose-playlist.html"
+  },
+  {
+    "slug": "sleep",
+    "title": "睡眠定时",
+    "file": "design/android/sleep.html"
+  },
+  {
+    "slug": "selection",
+    "title": "歌曲多选",
+    "file": "design/android/selection.html"
+  },
+  {
+    "slug": "empty-search",
+    "title": "搜索无结果",
+    "file": "design/android/empty-search.html"
+  },
+  {
+    "slug": "network-error",
+    "title": "加载失败",
+    "file": "design/android/network-error.html"
+  },
+  {
+    "slug": "daily",
+    "title": "每日推荐",
+    "file": "design/android/daily.html"
+  },
+  {
+    "slug": "fm",
+    "title": "私人 FM",
+    "file": "design/android/fm.html"
+  },
+  {
+    "slug": "charts",
+    "title": "排行榜",
+    "file": "design/android/charts.html"
+  },
+  {
+    "slug": "playlists",
+    "title": "歌单广场",
+    "file": "design/android/playlists.html"
+  },
+  {
+    "slug": "saved",
+    "title": "收藏歌手与专辑",
+    "file": "design/android/saved.html"
+  },
+  {
+    "slug": "subscribed",
+    "title": "订阅的播客",
+    "file": "design/android/subscribed.html"
+  },
+  {
+    "slug": "recent",
+    "title": "最近播放",
+    "file": "design/android/recent.html"
+  },
+  {
+    "slug": "liked",
+    "title": "我喜欢的音乐",
+    "file": "design/android/liked.html"
+  },
+  {
+    "slug": "local",
+    "title": "本地音乐",
+    "file": "design/android/local.html"
+  }
+]

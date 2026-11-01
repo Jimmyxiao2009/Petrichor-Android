@@ -1,0 +1,8 @@
+MainPackage=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_x86_Debug.appx
+SymbolPackage=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\obj\x86\Debug\Symbols\Petrichor.App_0.4.5.2_x86_Debug.appxsym
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-100.appx
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-125.appx
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-150.appx
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-250.appx
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-300.appx
+ResourcePack=H:\项目\UWP\Petrichor-uiux\src\Petrichor.App\bin\x86\Debug\Petrichor.App_0.4.5.2_scale-400.appx

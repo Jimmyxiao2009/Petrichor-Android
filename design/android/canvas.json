@@ -1,0 +1,282 @@
+{
+  "queue": {
+    "draftId": "a3a126ce-18df-407c-ad2e-a001289947e7",
+    "title": "播放队列",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/a3a126ce-18df-407c-ad2e-a001289947e7",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "E79C9667FDCE3AB4536D2310A08D12D90E1994468D284301C86E2E57E09B2D65"
+  },
+  "artist": {
+    "draftId": "d7c225dc-020e-4e84-a37d-52daaf637530",
+    "title": "歌手详情",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/d7c225dc-020e-4e84-a37d-52daaf637530",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "272EE242B39BC893D9682C7833FE2FCAE1F057CCB5DF363E437FAB039D0DEAE3"
+  },
+  "downloads": {
+    "draftId": "7cf4766d-1b44-4bf1-a9bb-0b491448178e",
+    "title": "本地与下载",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/7cf4766d-1b44-4bf1-a9bb-0b491448178e",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "F18D173606D8E7BC2862EE511794BB232D59F243FDD5F521D10C9FCDF07D0B15"
+  },
+  "search-songs": {
+    "draftId": "eae54ba4-1570-41ce-9ad7-95cdff004231",
+    "title": "搜索 · 单曲结果",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/eae54ba4-1570-41ce-9ad7-95cdff004231",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "016EE9A7A1109AE720E31A95A41182A356B109B2B15806A595E81F02E3A20245"
+  },
+  "player": {
+    "draftId": "35c66108-ed57-4635-ab0a-c23c3c4f4fbb",
+    "title": "正在播放",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/35c66108-ed57-4635-ab0a-c23c3c4f4fbb",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "C511C2B527BCAEE20C353339FB7B321D87DAB66CA8BFBFD15205DF0197D209FF"
+  },
+  "empty-search": {
+    "draftId": "2179253c-738f-4652-a4a3-da36b3a93304",
+    "title": "搜索无结果",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/2179253c-738f-4652-a4a3-da36b3a93304",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "4B5696794D4CABEA04511B6C11C09EADD9C1952960D5C3D920A4789AADE0A2B0"
+  },
+  "search": {
+    "draftId": "d240d83f-3bdc-4c33-b259-b068ed577dff",
+    "title": "搜索 · 节目结果",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/d240d83f-3bdc-4c33-b259-b068ed577dff",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "CCE8DAA40AF5E9222C7D357EB876DEFDBD24700F1FAFEDD55BE4C484856DDCA5"
+  },
+  "fm": {
+    "draftId": "8e60c8a6-f7f7-4cbb-9655-14b0dc47c1c4",
+    "title": "私人 FM",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/8e60c8a6-f7f7-4cbb-9655-14b0dc47c1c4",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "6E0092F3B842AD65A4821DE145C37CAA4EF91FCF6D3689C077DDF5F910BEDFE0"
+  },
+  "podcasts": {
+    "draftId": "eb3e4d41-88bc-416f-8c68-c89fd23282d7",
+    "title": "播客",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/eb3e4d41-88bc-416f-8c68-c89fd23282d7",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "C6B49A311AC022D29EB48AC7FB4685859A6C50765AEC853EE21D6EB22F7B8D7F"
+  },
+  "playlist": {
+    "draftId": "b55ce8cb-cccb-47e7-b706-6325c17d76e7",
+    "title": "歌单详情",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/b55ce8cb-cccb-47e7-b706-6325c17d76e7",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "37151F908776056EC052C81327000A4B16FB2B5243C5F48D991B2317E17993FA"
+  },
+  "library-guest": {
+    "draftId": "ecc51f0f-f627-4eb7-a906-e0017ad9dda1",
+    "title": "我的 · 未登录",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/ecc51f0f-f627-4eb7-a906-e0017ad9dda1",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "CE6FF0DF10228334CDAF30CA82B1321C4615BC526C7A0EC35F6D4575F9D950C4"
+  },
+  "library": {
+    "draftId": "dd0e4bcf-2cc9-49f4-a4a5-bb35d3e7f706",
+    "title": "我的音乐",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/dd0e4bcf-2cc9-49f4-a4a5-bb35d3e7f706",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "5DD0BD90DC0C4A3204F9864C87E0E8D1BEF4B67CEF9A444D616FA382FA9DFC3F"
+  },
+  "local": {
+    "draftId": "c84b285e-caa3-430a-8383-ebc5e4ce7fd3",
+    "title": "本地音乐",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/c84b285e-caa3-430a-8383-ebc5e4ce7fd3",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "9FC184201C0AABDC51FA3AB8C0203BF480C19B28A7D8AD7A0430F2F35D762AB6"
+  },
+  "selection": {
+    "draftId": "57b024e0-a2ad-40c0-bcd1-e0b58bb10cab",
+    "title": "歌曲多选",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/57b024e0-a2ad-40c0-bcd1-e0b58bb10cab",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "9EBB0F67BE157881957536478652AC2130782D15426DC972FA78134745A2A4C8"
+  },
+  "album": {
+    "draftId": "d1e7118a-4303-41ff-8ffb-11c71921ca52",
+    "title": "专辑详情",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/d1e7118a-4303-41ff-8ffb-11c71921ca52",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "F858BC9BCA316120D44D26832D3754DE949996D2CD05AD9312C1BC163C52BC72"
+  },
+  "sleep": {
+    "draftId": "f0547f2a-466a-4ed6-a71a-004245f6c9cd",
+    "title": "睡眠定时",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/f0547f2a-466a-4ed6-a71a-004245f6c9cd",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "A724DEBD47A104A3757040F565DA995B56CB2F8152B4760BF8720C386934BB5C"
+  },
+  "charts": {
+    "draftId": "657b4d02-ac2c-4951-99a4-0b51abb4174e",
+    "title": "排行榜",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/657b4d02-ac2c-4951-99a4-0b51abb4174e",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "F1C617DDF787F91F8FF1067766D426CA17ABADE70871916C69EAD19D73BE8F29"
+  },
+  "liked": {
+    "draftId": "f9b0ddb8-e03c-41e3-90d3-025dbc138208",
+    "title": "我喜欢的音乐",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/f9b0ddb8-e03c-41e3-90d3-025dbc138208",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "6463BF6602F1A6FF22B6508B88436B39B87000CE783E89D008BA7D4F2464BF43"
+  },
+  "daily": {
+    "draftId": "7b620b8a-353e-41a9-af99-f9356f47ebaa",
+    "title": "每日推荐",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/7b620b8a-353e-41a9-af99-f9356f47ebaa",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "5B4AE3D2D82631B321F700AD78337BC4916D491D984E754F95CD591D80144E38"
+  },
+  "settings": {
+    "draftId": "b9257a23-269b-42a2-9e4e-72d9f88e8bd6",
+    "title": "设置 · 动态取色",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/b9257a23-269b-42a2-9e4e-72d9f88e8bd6",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "BF90ABA05FDD36ECDB52E33E5E71DD8AA3513E37E8434C18DB78B1B0056B0C38"
+  },
+  "recent": {
+    "draftId": "db5baeb8-d7dd-4f8c-b9f2-f4570ee0d9d6",
+    "title": "最近播放",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/db5baeb8-d7dd-4f8c-b9f2-f4570ee0d9d6",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "E20CB403195DB46D53917AC0C9D3ABB3207D19CF1F1664C03D233AA870CB357D"
+  },
+  "replies": {
+    "draftId": "192d0b1f-8436-4603-b985-3489bbc0e034",
+    "title": "评论回复",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/192d0b1f-8436-4603-b985-3489bbc0e034",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "D3C84F53F6CB8A495119F09859FF1D5442425DE699A000EE52CC4185AF61E82A"
+  },
+  "network-error": {
+    "draftId": "200d544a-3bb9-49ee-ad32-022c9f5ff8d6",
+    "title": "加载失败",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/200d544a-3bb9-49ee-ad32-022c9f5ff8d6",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "BA2F2E450CFFF16705E212AF633D2FC7FA4C65E7CA22068F4443241F2F2AACA3"
+  },
+  "login": {
+    "draftId": "a1a68b97-c53d-454b-944c-241cfc8aabdc",
+    "title": "手机验证码登录",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/a1a68b97-c53d-454b-944c-241cfc8aabdc",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "A8C007EC70A97FBA0EC6231ED34264E60F79BE80A1B830952D7D856F90DEA857"
+  },
+  "playlists": {
+    "draftId": "1c5980b6-6d5d-4420-be01-1fc038a8e689",
+    "title": "歌单广场",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/1c5980b6-6d5d-4420-be01-1fc038a8e689",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "5F8A2AEACB47D9725D7367BE4D03C5BE582A66245D4C4E077733209ED4246BE7"
+  },
+  "qr-login": {
+    "draftId": "2e7a3fcc-96cb-4a9f-96a4-20ce5df4de2d",
+    "title": "扫码登录",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/2e7a3fcc-96cb-4a9f-96a4-20ce5df4de2d",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "A3C339874D6069B511574559F039390614495A0B9B99029C1D5D62CC6B08414E"
+  },
+  "choose-playlist": {
+    "draftId": "5dd5524b-383c-44ea-b45d-6f44c49e1b9e",
+    "title": "收藏到歌单",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/5dd5524b-383c-44ea-b45d-6f44c49e1b9e",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "44146D6C5A3F02A6978CC1BAE5DC219563F4706D2D9CC5923C694DC5EB90FF4E"
+  },
+  "discover": {
+    "draftId": "d529456e-4184-4e33-a3c1-d0b9852f52b1",
+    "title": "发现",
+    "currentVersion": 5,
+    "previewUrl": "https://p.superdesign.dev/draft/d529456e-4184-4e33-a3c1-d0b9852f52b1",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "D4068494549AA64271D94D0E88A8C3B50531B8ABD819010C6E85FF9A3ED257B2"
+  },
+  "podcast": {
+    "draftId": "27d7c30f-b508-4102-a65b-a465b07b6e8a",
+    "title": "播客详情",
+    "currentVersion": 2,
+    "previewUrl": "https://p.superdesign.dev/draft/27d7c30f-b508-4102-a65b-a465b07b6e8a",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "94C7771DBCC7F5289AA81F7BFE0FA0A0733587392A6A6DEE255C7A1C6357BE47"
+  },
+  "create-playlist": {
+    "draftId": "baec96d0-33e6-47c2-a6f1-6d20e160de29",
+    "title": "新建歌单",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/baec96d0-33e6-47c2-a6f1-6d20e160de29",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "1AF44A0C21AF1E8F2E1AFACBD5586E4F2743DF0E621C503EF05A8916788E0217"
+  },
+  "lyrics": {
+    "draftId": "59f269c7-cdba-42a2-bd41-6a8fa91c3230",
+    "title": "同步歌词",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/59f269c7-cdba-42a2-bd41-6a8fa91c3230",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "AA1B8CC469658935AC53ACFC0756D734EC87232F53F38620525AAB53B2DC741C"
+  },
+  "subscribed": {
+    "draftId": "90090251-f2c6-40db-84bf-e93be059cadf",
+    "title": "订阅的播客",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/90090251-f2c6-40db-84bf-e93be059cadf",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "48E0E9EB7D3CD13C7B477138830F27BB43CA7025ACAE8C1A0D77F70032AC8BFC"
+  },
+  "track-menu": {
+    "draftId": "c95e8828-f75e-438f-932c-c76db871f8ea",
+    "title": "歌曲长按菜单",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/c95e8828-f75e-438f-932c-c76db871f8ea",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "DF2E3EAFF231A45E53E1CD4A60BB23F13E2A6976FB233D4C53C658867E544592"
+  },
+  "comments": {
+    "draftId": "ded9072f-1191-4cf3-9a73-ec2a01c1d7ef",
+    "title": "评论",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/ded9072f-1191-4cf3-9a73-ec2a01c1d7ef",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "57D620C2334A0197C1A926A21452134379F34541C7CEAF5EF3A31E128CC78AAF"
+  },
+  "saved": {
+    "draftId": "aabd2f36-0fc7-4a40-a4d5-d20e74b42e90",
+    "title": "收藏歌手与专辑",
+    "currentVersion": null,
+    "previewUrl": "https://p.superdesign.dev/draft/aabd2f36-0fc7-4a40-a4d5-d20e74b42e90",
+    "projectUrl": "https://superdesign.dev/teams/2a786f92-dde2-44dd-b17c-8f6c94277721/projects/f68bfd1a-53a5-4dca-b67c-6ea662228783",
+    "sha256": "492B6B42165C2CA564F3F26380ED32838646882B5B518E3A84A0986A7060CBF3"
+  }
+}

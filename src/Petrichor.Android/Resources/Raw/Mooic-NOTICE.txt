@@ -1,0 +1,7 @@
+Petrichor Android 1.0.6 UI adaptation
+Mooic 3.0.1 — kid-depress and upstream contributors
+https://github.com/kid-depress/Mooic/tree/3.0.1
+Commit e54896498c43f9fcad26352d59f8cda9a393e6b7
+GPL-3.0; license included in Mooic-LICENSE.txt.
+Home, Explore, Player, lyric and mini-player composition/proportions have been adapted to MAUI.
+Petrichor.Core, account/session, playback, cache, download and playlist actions are retained.
