@@ -2,6 +2,7 @@
 
 原生 **.NET MAUI 10 + Material Design 3** 网易云音乐客户端，支持 Android 8.0 以上的64位设备。
 
+- [1.1.0 按 Material Design 3 调整全部界面、导航与动效](docs/UI-1.1.0.md)
 - [1.0.10 播放稳定性、系统封面、页面动效与性能修复](docs/PLAYBACK-1.0.10.md)
 - [APK 安装包](artifacts/android/Petrichor-Android.apk)
 - [1.0.9 播放功能、当前队列与实际截图](artifacts/ui-1.0.9/index.html)
@@ -27,6 +28,8 @@
 ```powershell
 pwsh -NoProfile -File scripts/Build-Android.ps1
 ```
+
+工具链版本、本机安装位置、环境变量与已知陷阱见 [开发与编译环境](docs/DEV-ENVIRONMENT.md)。换机后可先运行 `pwsh -NoProfile -File scripts/Check-DevEnvironment.ps1` 检查依赖。
 
 1.0.2 新增账号密码登录，复用登录页的页签和表单组件，支持密码显示/隐藏，仅保存会话，不保存密码。[本轮说明](docs/PASSWORD-LOGIN.md)。
 

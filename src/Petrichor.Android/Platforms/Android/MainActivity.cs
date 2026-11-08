@@ -1,7 +1,6 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Google.Android.Material.Color;
 using Petrichor.Mobile.Services;
 namespace Petrichor.Mobile;
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
@@ -9,13 +8,19 @@ namespace Petrichor.Mobile;
 public class MainActivity : MauiAppCompatActivity
 {
     public static MainActivity? Instance { get; private set; }
+    // MAUI switches from the splash theme to its Material 3 theme inside OnCreate, before any view is
+    // inflated. Overlaying the palette here lets native Material views inflate with the app colors.
+    protected override void OnApplyThemeResource(Android.Content.Res.Resources.Theme? theme, int resid, bool first)
+    {
+        base.OnApplyThemeResource(theme, resid, first);
+        ThemeColors.ApplyOverlay(this, theme);
+    }
     protected override void OnCreate(Bundle? state)
     {
         Instance = this;
         base.OnCreate(state);
         VolumeControlStream=Android.Media.Stream.Music;
         Window?.SetSoftInputMode(Android.Views.SoftInput.AdjustResize);
-        if (Preferences.Get("dynamicColors", true)) DynamicColors.ApplyToActivityIfAvailable(this);
         ThemeColors.Apply(this);
     }
 #if DEBUG

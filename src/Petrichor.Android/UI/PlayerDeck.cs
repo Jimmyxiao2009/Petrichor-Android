@@ -1,4 +1,4 @@
-using Android.Provider;
+﻿using Android.Provider;
 using Android.Views;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -55,11 +55,11 @@ internal sealed class PlayerDeck : ContentView
         if(previous!=PlayerPane.Player&&pane!=PlayerPane.Player&&previous!=pane){
             // Auxiliary pages crossfade directly, without exposing the cover between them.
             crossfading=true;main.IsVisible=false;var old=ViewFor(previous);var next=ViewFor(pane);old.IsVisible=next.IsVisible=true;old.TranslationY=next.TranslationY=0;next.Opacity=0;
-            new Animation(t=>{old.Opacity=1-t;next.Opacity=t;}).Commit(this,"PlayerPane",16,200,MaterialMotion.Standard,(_,cancelled)=>{if(!cancelled)Finish(pane);done.TrySetResult();});
+            new Animation(t=>{old.Opacity=1-t;next.Opacity=t;}).Commit(this,"PlayerPane",16,200,Md.Standard,(_,cancelled)=>{if(!cancelled)Finish(pane);done.TrySetResult();});
         }else{
             functions.IsVisible=queue.IsVisible=true;
             var duration=(uint)Math.Clamp(180+Math.Abs(target-from)/Math.Max(1,Height)*80,180,260);
-            new Animation(t=>Place(from+(target-from)*t)).Commit(this,"PlayerPane",16,duration,MaterialMotion.Standard,(_,cancelled)=>{if(!cancelled)Finish(pane);done.TrySetResult();});
+            new Animation(t=>Place(from+(target-from)*t)).Commit(this,"PlayerPane",16,duration,Md.Standard,(_,cancelled)=>{if(!cancelled)Finish(pane);done.TrySetResult();});
         }
         return done.Task;
     }

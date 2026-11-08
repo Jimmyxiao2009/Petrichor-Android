@@ -1,4 +1,3 @@
-using Android.App;
 using Android.Widget;
 using Android.Views;
 using Google.Android.Material.BottomSheet;
@@ -77,7 +76,7 @@ public static partial class Actions
         if(tracks.Count==0){page.ShowMessage("请先选择歌曲。");return;}
         if(playlist.Creator?.Id!=AppServices.Api.CurrentUser?.Id)throw new InvalidOperationException("只能修改自己创建的歌单。");
         var verb=playlist.SpecialType==5?"取消喜欢":"从歌单移除";
-        if(!await page.DisplayAlertAsync(verb,tracks.Count==1?"确定"+verb+"「"+tracks[0].Name+"」？":"确定"+verb+"所选的 "+tracks.Count+" 首歌曲？","确定","取消"))return;
+        if(!await Dialogs.Confirm(verb+"？",tracks.Count==1?"将"+verb+"「"+tracks[0].Name+"」。":"将"+verb+"所选的 "+tracks.Count+" 首歌曲。",playlist.SpecialType==5?"取消喜欢":"移除",destructive:true,icon:"delete"))return;
         Exception? failure=null;
         try{await AppServices.Api.RemoveTracksFromPlaylistAsync(playlist.Id,tracks.Select(t=>t.Id));}
         catch(Exception e){failure=e;}
@@ -87,44 +86,54 @@ public static partial class Actions
         page.ShowMessage("已"+verb+" "+tracks.Count+" 首歌曲。");
         } finally {removalGate.Release();}
     }
-    public static Task<string?> Sheet(BasePage page,string title,string subtitle,IEnumerable<(string Key,string Text)> options,string? cover=null)
+    private static string IconFor(string key)=>key switch{"play"=>"play","next"=>"next","queue"=>"queue","add"=>"playlist","like"=>"like","download"=>"download","comments"=>"comments","artist"=>"person","album"=>"album","select"=>"select","remove" or "clear"=>"delete","sleep" or "15" or "30" or "60" or "90" or "track"=>"sleep","retry"=>"history","choose"=>"folder","private"=>"storage","follow"=>"lyrics","save"=>"like","0"=>"palette","1"=>"palette","2"=>"dark",_=>key.All(char.IsDigit)?"quality":"chevron"};
+    // Material 3 modal bottom sheet with a list of actions. `selected` marks the current choice.
+    public static Task<string?> Sheet(BasePage page,string title,string subtitle,IEnumerable<(string Key,string Text)> options,string? cover=null,string? selected=null)
     {
         var activity=MainActivity.Instance??throw new InvalidOperationException("当前没有可用的窗口");
         var completion=new TaskCompletionSource<string?>(TaskCreationOptions.RunContinuationsAsynchronously);
         var dialog=new BottomSheetDialog(activity);
         var density=activity.Resources!.DisplayMetrics!.Density;
-        int D(double n)=>(int)(n*density);
-        var layout=new LinearLayout(activity){Orientation=Orientation.Vertical};
-        layout.SetPadding(D(12),D(12),D(12),D(24));
-        var handle=new global::Android.Views.View(activity);var handleShape=new Android.Graphics.Drawables.GradientDrawable();var muted=Ui.Color("Muted");handleShape.SetColor(Android.Graphics.Color.Argb(100,(int)(muted.Red*255),(int)(muted.Green*255),(int)(muted.Blue*255)));handleShape.SetCornerRadius(D(2));handle.Background=handleShape;
-        layout.AddView(handle,new LinearLayout.LayoutParams(D(32),D(4)){Gravity=GravityFlags.CenterHorizontal,BottomMargin=D(16)});
-        var background=new Android.Graphics.Drawables.GradientDrawable();
-        var surface=Ui.Color("SurfaceContainerLow");background.SetColor(Android.Graphics.Color.Argb((int)(surface.Alpha*255),(int)(surface.Red*255),(int)(surface.Green*255),(int)(surface.Blue*255)));
-        background.SetCornerRadii([D(28),D(28),D(28),D(28),0,0,0,0]);layout.Background=background;
+        int D(double n)=>(int)Math.Round(n*density);
+        static int C(string key)=>Ui.Color(key).ToPlatform().ToArgb();
+        var medium=OperatingSystem.IsAndroidVersionAtLeast(28)?Android.Graphics.Typeface.Create(Android.Graphics.Typeface.Default,500,false):Android.Graphics.Typeface.Create("sans-serif-medium",Android.Graphics.TypefaceStyle.Normal);
         var icons=Android.Graphics.Typeface.CreateFromAsset(activity.Assets,"MaterialIconsOutlined-Regular.otf");
-        void Label(string text,float size,string color,int height,Action? tap=null,string? icon=null)
-        {
-            var view=new TextView(activity){Text=text,TextSize=size,Gravity=GravityFlags.CenterVertical};
-            var c=Ui.Color(color);view.SetTextColor(Android.Graphics.Color.Argb(255,(int)(c.Red*255),(int)(c.Green*255),(int)(c.Blue*255)));
-            var row=new LinearLayout(activity){Orientation=Orientation.Horizontal};
-            if(icon!=null){var glyph=new TextView(activity){Text=Ui.Glyphs[icon],TextSize=24,Typeface=icons,Gravity=GravityFlags.CenterVertical};glyph.SetTextColor(Android.Graphics.Color.Argb(255,(int)(c.Red*255),(int)(c.Green*255),(int)(c.Blue*255)));row.AddView(glyph,new LinearLayout.LayoutParams(D(44),-1));}
-            row.SetGravity(GravityFlags.CenterVertical);row.AddView(view,new LinearLayout.LayoutParams(-1,-1));layout.AddView(row,new LinearLayout.LayoutParams(-1,D(height)));
-            if(tap!=null){
-                var fill=new Android.Graphics.Drawables.GradientDrawable();fill.SetColor(Ui.Color("Surface").ToPlatform());fill.SetCornerRadius(D(12));
-                var mask=new Android.Graphics.Drawables.GradientDrawable();mask.SetColor(Android.Graphics.Color.White);mask.SetCornerRadius(D(12));
-                row.Background=new Android.Graphics.Drawables.RippleDrawable(Android.Content.Res.ColorStateList.ValueOf(Ui.Color("Primary").WithAlpha(.12f).ToPlatform()),fill,mask);row.SetPadding(D(12),0,D(12),0);
-                if(row.LayoutParameters is LinearLayout.LayoutParams parameters)parameters.BottomMargin=D(3);
-                row.Clickable=true;row.Focusable=true;row.Click+=(_,_)=>tap();
-            }
-        }
+        var layout=new LinearLayout(activity){Orientation=Orientation.Vertical};layout.SetPadding(0,0,0,D(12));
+        layout.AddView(new BottomSheetDragHandleView(activity),new LinearLayout.LayoutParams(-1,-2));
+        TextView Words(string text,float sp,string color,Android.Graphics.Typeface? face=null){var view=new TextView(activity){Text=text};view.SetTextSize(Android.Util.ComplexUnitType.Sp,sp);view.SetTextColor(new Android.Graphics.Color(C(color)));if(face!=null)view.Typeface=face;return view;}
         Image? artwork=null;
-        if(cover!=null){var heading=new LinearLayout(activity){Orientation=Orientation.Horizontal};heading.SetGravity(GravityFlags.CenterVertical);artwork=Ui.Cover(cover,52);heading.AddView(artwork.ToPlatform(page.Handler!.MauiContext!),new LinearLayout.LayoutParams(D(52),D(52)){RightMargin=D(14)});var text=new LinearLayout(activity){Orientation=Orientation.Vertical};var name=new TextView(activity){Text=title,TextSize=15};var by=new TextView(activity){Text=subtitle,TextSize=12};var ink=Ui.Color("OnSurface");name.SetTextColor(Android.Graphics.Color.Argb(255,(int)(ink.Red*255),(int)(ink.Green*255),(int)(ink.Blue*255)));by.SetTextColor(Android.Graphics.Color.Argb(255,(int)(muted.Red*255),(int)(muted.Green*255),(int)(muted.Blue*255)));text.AddView(name);text.AddView(by);heading.AddView(text);layout.AddView(heading,new LinearLayout.LayoutParams(-1,D(76)));}
-        else{Label(title,20,"OnSurface",40);if(subtitle.Length>0)Label(subtitle,13,"Muted",32);}
-        foreach(var item in options){string glyph=item.Key switch{"play"=>"play","next"=>"next","queue"=>"queue","add"=>"playlist","like"=>"like","download"=>"download","comments"=>"comments","artist"=>"person","album"=>"album","select"=>"check","remove" or "clear"=>"delete","sleep" or "15" or "30" or "60" or "90" or "track"=>"sleep",_=>"chevron"};Label(item.Text,15,item.Key=="remove"?"Error":"OnSurface",56,()=>{completion.TrySetResult(item.Key);dialog.Dismiss();},glyph);}
+        if(cover!=null)
+        {
+            var heading=new LinearLayout(activity){Orientation=Orientation.Horizontal};heading.SetGravity(GravityFlags.CenterVertical);heading.SetPadding(D(24),0,D(24),D(16));
+            artwork=Ui.Cover(cover,56);heading.AddView(artwork.ToPlatform(page.Handler!.MauiContext!),new LinearLayout.LayoutParams(D(56),D(56)){RightMargin=D(16)});
+            var text=new LinearLayout(activity){Orientation=Orientation.Vertical};
+            var name=Words(title,16,"OnSurface",medium);name.SetMaxLines(2);name.Ellipsize=Android.Text.TextUtils.TruncateAt.End;text.AddView(name);
+            if(subtitle.Length>0){var by=Words(subtitle,14,"OnSurfaceVariant");by.SetMaxLines(1);by.Ellipsize=Android.Text.TextUtils.TruncateAt.End;text.AddView(by);}
+            heading.AddView(text,new LinearLayout.LayoutParams(0,-2,1));layout.AddView(heading);
+            var divider=new Android.Views.View(activity);divider.SetBackgroundColor(new Android.Graphics.Color(C("OutlineVariant")));layout.AddView(divider,new LinearLayout.LayoutParams(-1,D(1)){BottomMargin=D(8)});
+        }
+        else
+        {
+            var heading=Words(title,22,"OnSurface");heading.SetPadding(D(24),0,D(24),subtitle.Length>0?D(4):D(16));layout.AddView(heading);
+            if(subtitle.Length>0){var detail=Words(subtitle,14,"OnSurfaceVariant");detail.SetPadding(D(24),0,D(24),D(16));layout.AddView(detail);}
+        }
+        foreach(var item in options)
+        {
+            var danger=item.Key=="remove"||item.Key=="clear";var chosen=item.Key==selected;
+            var row=new LinearLayout(activity){Orientation=Orientation.Horizontal};row.SetGravity(GravityFlags.CenterVertical);row.SetPadding(D(24),0,D(24),0);
+            var glyph=new TextView(activity){Text=Ui.Glyphs[IconFor(item.Key)],Typeface=icons,Gravity=GravityFlags.Center};glyph.SetTextSize(Android.Util.ComplexUnitType.Dip,24);glyph.SetTextColor(new Android.Graphics.Color(C(danger?"Error":chosen?"Primary":"OnSurfaceVariant")));
+            row.AddView(glyph,new LinearLayout.LayoutParams(D(24),D(24)){RightMargin=D(16)});
+            var label=Words(item.Text,16,danger?"Error":chosen?"Primary":"OnSurface",chosen?medium:null);label.SetMaxLines(1);label.Ellipsize=Android.Text.TextUtils.TruncateAt.End;
+            row.AddView(label,new LinearLayout.LayoutParams(0,-2,1));
+            if(chosen){var check=new TextView(activity){Text=Ui.Glyphs["check"],Typeface=icons};check.SetTextSize(Android.Util.ComplexUnitType.Dip,24);check.SetTextColor(new Android.Graphics.Color(C("Primary")));row.AddView(check,new LinearLayout.LayoutParams(D(24),D(24)));}
+            row.Background=new Android.Graphics.Drawables.RippleDrawable(Android.Content.Res.ColorStateList.ValueOf(Ui.Color("OnSurface").WithAlpha(Md.PressedState).ToPlatform()),null,new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.White));
+            row.Clickable=true;row.Focusable=true;row.ContentDescription=item.Text;row.Click+=(_,_)=>{completion.TrySetResult(item.Key);dialog.Dismiss();};
+            layout.AddView(row,new LinearLayout.LayoutParams(-1,D(56)));
+        }
         var scroll=new Android.Widget.ScrollView(activity);scroll.AddView(layout);
         dialog.SetContentView(scroll);
         dialog.DismissEvent+=(_,_)=>completion.TrySetResult(null);
-        dialog.Show();
+        dialog.Show();dialog.Behavior.SkipCollapsed=true;dialog.Behavior.State=BottomSheetBehavior.StateExpanded;
         return Await();
         async Task<string?> Await(){try{return await completion.Task;}finally{artwork?.Handler?.DisconnectHandler();dialog.Dispose();}}
     }

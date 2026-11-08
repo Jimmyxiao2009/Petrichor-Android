@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mirrors md_rise_enter so opening and closing the player move the same distance over the same duration. --><set xmlns:android="http://schemas.android.com/apk/res/android" android:shareInterpolator="false"><translate android:fromYDelta="0%" android:toYDelta="6%" android:duration="350" android:interpolator="@interpolator/md_emphasized_accelerate" /><alpha android:fromAlpha="1" android:toAlpha="0" android:duration="150" android:interpolator="@interpolator/md_standard_accelerate" /></set>

@@ -1,73 +1,100 @@
 using Android.Content;
-using Microsoft.Maui.Controls;
+using Android.Content.Res;
+using Google.Android.Material.Color;
 using Microsoft.Maui.Platform;
+using Petrichor.Mobile.Pages;
+using Petrichor.Mobile.UI;
 using Color = Microsoft.Maui.Graphics.Color;
 namespace Petrichor.Mobile.Services;
 
+// The activity theme is the single source of the palette: dynamic or static overlays are applied to it,
+// then every Material 3 color role is read back for MAUI. Native Material views and MAUI views therefore
+// always agree, including the API 31-33 surface-container tones that Material derives from system colors.
 public static class ThemeColors
 {
+    private static readonly (string Key,string Attr,string Static)[] roles=[
+        ("Primary","colorPrimary","primary"),("OnPrimary","colorOnPrimary","on_primary"),
+        ("PrimaryContainer","colorPrimaryContainer","primary_container"),("OnPrimaryContainer","colorOnPrimaryContainer","on_primary_container"),
+        ("Secondary","colorSecondary","secondary"),("OnSecondary","colorOnSecondary","on_secondary"),
+        ("SecondaryContainer","colorSecondaryContainer","secondary_container"),("OnSecondaryContainer","colorOnSecondaryContainer","on_secondary_container"),
+        ("Tertiary","colorTertiary","tertiary"),("OnTertiary","colorOnTertiary","on_tertiary"),
+        ("TertiaryContainer","colorTertiaryContainer","tertiary_container"),("OnTertiaryContainer","colorOnTertiaryContainer","on_tertiary_container"),
+        ("Error","colorError","error"),("OnError","colorOnError","on_error"),
+        ("ErrorContainer","colorErrorContainer","error_container"),("OnErrorContainer","colorOnErrorContainer","on_error_container"),
+        ("Surface","colorSurface","surface"),("OnSurface","colorOnSurface","on_surface"),
+        ("SurfaceVariant","colorSurfaceVariant","surface_variant"),("OnSurfaceVariant","colorOnSurfaceVariant","on_surface_variant"),
+        ("SurfaceDim","colorSurfaceDim","surface_dim"),("SurfaceBright","colorSurfaceBright","surface_bright"),
+        ("SurfaceContainerLowest","colorSurfaceContainerLowest","surface_container_lowest"),("SurfaceContainerLow","colorSurfaceContainerLow","surface_container_low"),
+        ("SurfaceContainer","colorSurfaceContainer","surface_container"),("SurfaceContainerHigh","colorSurfaceContainerHigh","surface_container_high"),
+        ("SurfaceContainerHighest","colorSurfaceContainerHighest","surface_container_highest"),
+        ("Outline","colorOutline","outline"),("OutlineVariant","colorOutlineVariant","outline_variant"),
+        ("InverseSurface","colorSurfaceInverse","inverse_surface"),("InverseOnSurface","colorOnSurfaceInverse","inverse_on_surface"),
+        ("InversePrimary","colorPrimaryInverse","inverse_primary")];
+    public static event Action? Changed;
+    public static bool IsDark { get; private set; }
+    public static bool DynamicAvailable => OperatingSystem.IsAndroidVersionAtLeast(31) && DynamicColors.IsDynamicColorAvailable;
+    private static bool UseDynamic => DynamicAvailable && Preferences.Get("dynamicColors", true);
+
+    public static bool ResolveDark(Context context)
+    {
+        var mode = Microsoft.Maui.Controls.Application.Current?.UserAppTheme ?? (AppTheme)Preferences.Get("theme", 0);
+        if (mode == AppTheme.Dark) return true;
+        if (mode == AppTheme.Light) return false;
+        return (context.Resources?.Configuration?.UiMode & UiMode.NightMask) == UiMode.NightYes;
+    }
+    public static void ApplyOverlay(Context context, Resources.Theme? theme)
+    {
+        if (theme == null) return;
+        var dark = ResolveDark(context);
+        var style = UseDynamic
+            ? (dark ? Resource.Style.ThemeOverlay_Material3_DynamicColors_Dark : Resource.Style.ThemeOverlay_Material3_DynamicColors_Light)
+            : (dark ? Resource.Style.ThemeOverlay_Petrichor_Dark : Resource.Style.ThemeOverlay_Petrichor_Light);
+        theme.ApplyStyle(style, true);
+    }
     public static void Apply(Context? context = null)
     {
         var app = Microsoft.Maui.Controls.Application.Current;
         if (app == null) return;
         context ??= MainActivity.Instance ?? (Context)global::Android.App.Application.Context;
-        var dark = app.UserAppTheme == AppTheme.Dark || (app.UserAppTheme == AppTheme.Unspecified && app.RequestedTheme == AppTheme.Dark);
-        var dynamic = OperatingSystem.IsAndroidVersionAtLeast(31) && Preferences.Get("dynamicColors", true);
-        Color Get(string palette, int tone, string fallback)
+        var dark = IsDark = ResolveDark(context);
+        var activity = context as global::Android.App.Activity;
+        if (activity != null) ApplyOverlay(activity, activity.Theme);
+        var changed = false;
+        void Set(string key, Color value)
         {
-            if (dynamic) {
-                var id = context.Resources!.GetIdentifier("system_" + palette + "_" + tone, "color", "android");
-                if (id != 0) { var c = context.Resources.GetColor(id, context.Theme); return Color.FromRgba(c.R, c.G, c.B, c.A); }
-            }
-            return Color.FromArgb(fallback);
+            // Resume and focus callbacks run repeatedly; reassigning equal values repaints every bound view.
+            if (app.Resources.TryGetValue(key, out var existing) && existing is Color color && color.Equals(value)) return;
+            app.Resources[key] = value; changed = true;
         }
-        var values = new Dictionary<string, Color> {
-            ["Primary"] = Get("accent1",dark?200:600,dark?"#FFB1C4":"#B91C42"),
-            ["OnPrimary"] = Get("accent1",dark?800:0,dark?"#650027":"#FFFFFF"),
-            ["PrimaryContainer"] = Get("accent1",dark?700:100,dark?"#8E113F":"#FFD9E2"),
-            ["OnPrimaryContainer"] = Get("accent1",dark?100:900,dark?"#FFD9E2":"#3F0016"),
-            ["Surface"] = Get("neutral1",dark?900:10,dark?"#191114":"#FFFBFC"),
-            ["SurfaceContainer"] = Get("neutral1",dark?800:50,dark?"#251D21":"#F7ECEF"),
-            ["SurfaceHigh"] = Get("neutral2",dark?800:100,dark?"#33282E":"#F0E3E7"),
-            ["OnSurface"] = Get("neutral1",dark?50:900,dark?"#F0DEE3":"#23191C"),
-            ["Muted"] = Get("neutral2",dark?200:700,dark?"#D0BDC5":"#76666C"),
-            ["Outline"] = Get("neutral2",dark?600:200,dark?"#51434A":"#DAC2CA"),
-            ["Error"] = Color.FromArgb(dark?"#FFB4AB":"#BA1A1A")
-        };
-        // Separate low-emphasis supporting content from selected/action containers.
-        values["SurfaceContainerLow"]=Blend(values["Surface"],values["SurfaceContainer"],.45f);
-        values["SecondaryContainer"]=Get("accent2",dark?700:100,dark?"#4A4458":"#E8DEF8");
-        values["OnSecondaryContainer"]=Get("accent2",dark?100:900,dark?"#E8DEF8":"#1D192B");
-        values["OutlineVariant"]=Blend(values["Outline"],values["Surface"],.5f);
-        static Color Blend(Color a,Color b,float t)=>new(a.Red+(b.Red-a.Red)*t,a.Green+(b.Green-a.Green)*t,a.Blue+(b.Blue-a.Blue)*t);
-        // Resume and theme callbacks can run repeatedly without a palette
-        // change. Reassigning identical resources repaints every bound control.
-        foreach (var pair in values)if(!app.Resources.TryGetValue(pair.Key,out var existing)||existing is not Color color||!color.Equals(pair.Value))app.Resources[pair.Key] = pair.Value;
-        if(context is global::Android.App.Activity activity && activity.Window?.DecorView is {} root)
+        foreach (var role in roles) Set(role.Key, Read(context, activity, role.Attr, role.Static, dark));
+        Set("Scrim", Colors.Black);
+        if (activity != null) { UpdateSystemBars(activity); NavigationBar.Restyle(); }
+        if (changed) Changed?.Invoke();
+    }
+    private static Color Read(Context context, global::Android.App.Activity? activity, string attr, string name, bool dark)
+    {
+        var id = context.Resources!.GetIdentifier("pt_" + (dark ? "dark_" : "light_") + name, "color", context.PackageName);
+        var fallback = id == 0 ? Colors.Magenta : Color.FromInt(context.Resources.GetColor(id, null).ToArgb());
+        if (activity == null) return fallback;
+        var attribute = context.Resources.GetIdentifier(attr, "attr", context.PackageName);
+        return attribute == 0 ? fallback : Color.FromInt(MaterialColors.GetColor(activity, attribute, fallback.ToInt()));
+    }
+    // Before Android 15 the bars are opaque; afterwards they are transparent over the edge-to-edge window.
+    public static void UpdateSystemBars(global::Android.App.Activity? activity = null, Color? statusBar = null)
+    {
+        activity ??= MainActivity.Instance;
+        if (activity?.Window is not { } window || window.DecorView is not { } root || Microsoft.Maui.Controls.Application.Current == null) return;
+        var page = Shell.Current?.CurrentPage as BasePage;
+        var background = Ui.Color(page?.BackgroundKey ?? "Surface").ToPlatform();
+        window.SetBackgroundDrawable(new global::Android.Graphics.Drawables.ColorDrawable(background));
+        root.SetBackgroundColor(background);
+        if (!OperatingSystem.IsAndroidVersionAtLeast(35))
         {
-            var surface=values[Shell.Current?.CurrentPage is Petrichor.Mobile.Pages.PlayerPage?"SurfaceContainer":"Surface"].ToPlatform();
-            activity.Window.SetBackgroundDrawable(new global::Android.Graphics.Drawables.ColorDrawable(surface));
-            root.SetBackgroundColor(surface);
-            // Android 15 draws transparent system bars over the app window.
-            // Earlier versions require the explicit matching bar background.
-            if(!OperatingSystem.IsAndroidVersionAtLeast(35))activity.Window.SetStatusBarColor(surface);
-            activity.Window.SetNavigationBarColor(values["SurfaceContainer"].ToPlatform());
-            if(OperatingSystem.IsAndroidVersionAtLeast(29)){activity.Window.StatusBarContrastEnforced=false;activity.Window.NavigationBarContrastEnforced=false;}
-            var bars=new AndroidX.Core.View.WindowInsetsControllerCompat(activity.Window,root);
-            bars.AppearanceLightStatusBars=!dark;bars.AppearanceLightNavigationBars=!dark;
-            ApplyNavigation(root);
+            window.SetStatusBarColor((statusBar ?? page?.AppBarColor ?? Ui.Color("Surface")).ToPlatform());
+            window.SetNavigationBarColor(Ui.Color(NavigationBar.IsShown ? "SurfaceContainer" : page?.BottomKey ?? "Surface").ToPlatform());
         }
-        void ApplyNavigation(global::Android.Views.View view)
-        {
-            if(view is Google.Android.Material.BottomNavigation.BottomNavigationView navigation)
-            {
-                var density=navigation.Resources!.DisplayMetrics!.Density;
-                navigation.ItemIconSize=(int)Math.Round(26*density);
-                navigation.LabelVisibilityMode=Google.Android.Material.Navigation.NavigationBarView.LabelVisibilityUnlabeled;
-                var c=values["PrimaryContainer"];
-                navigation.ItemActiveIndicatorColor=global::Android.Content.Res.ColorStateList.ValueOf(global::Android.Graphics.Color.Argb(255,(int)(c.Red*255),(int)(c.Green*255),(int)(c.Blue*255)));
-            }
-            if(view is global::Android.Views.ViewGroup group)for(int i=0;i<group.ChildCount;i++)if(group.GetChildAt(i) is {} child)ApplyNavigation(child);
-        }
+        if (OperatingSystem.IsAndroidVersionAtLeast(29)) { window.StatusBarContrastEnforced = false; window.NavigationBarContrastEnforced = false; }
+        var bars = new AndroidX.Core.View.WindowInsetsControllerCompat(window, root);
+        bars.AppearanceLightStatusBars = !IsDark; bars.AppearanceLightNavigationBars = !IsDark;
     }
 }

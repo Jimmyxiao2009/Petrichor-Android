@@ -1,3 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><resources>
-<color name="colorPrimary">#B91C42</color><color name="colorPrimaryDark">#891031</color><color name="colorAccent">#B91C42</color>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorPrimary">#B71A41</color><color name="colorPrimaryDark">#91002D</color><color name="colorAccent">#B71A41</color>
+  <!-- Material 3 static scheme generated from the brand seed #B91C42 with Material Color Utilities
+       (content palette). Used when dynamic color is off or unavailable; see ThemeOverlay.Petrichor.* -->
+  <color name="pt_light_primary">#B71A41</color>
+  <color name="pt_light_on_primary">#FFFFFF</color>
+  <color name="pt_light_primary_container">#FFDADB</color>
+  <color name="pt_light_on_primary_container">#40000F</color>
+  <color name="pt_light_secondary">#835055</color>
+  <color name="pt_light_on_secondary">#FFFFFF</color>
+  <color name="pt_light_secondary_container">#FFDADB</color>
+  <color name="pt_light_on_secondary_container">#340F14</color>
+  <color name="pt_light_tertiary">#A03D4B</color>
+  <color name="pt_light_on_tertiary">#FFFFFF</color>
+  <color name="pt_light_tertiary_container">#FFDADB</color>
+  <color name="pt_light_on_tertiary_container">#40000F</color>
+  <color name="pt_light_error">#BA1A1A</color>
+  <color name="pt_light_on_error">#FFFFFF</color>
+  <color name="pt_light_error_container">#FFDAD6</color>
+  <color name="pt_light_on_error_container">#410002</color>
+  <color name="pt_light_surface">#FFF8F7</color>
+  <color name="pt_light_surface_dim">#E8D6D6</color>
+  <color name="pt_light_surface_bright">#FFF8F7</color>
+  <color name="pt_light_surface_container_lowest">#FFFFFF</color>
+  <color name="pt_light_surface_container_low">#FFF0F0</color>
+  <color name="pt_light_surface_container">#FDE9EA</color>
+  <color name="pt_light_surface_container_high">#F7E4E4</color>
+  <color name="pt_light_surface_container_highest">#F1DEDE</color>
+  <color name="pt_light_on_surface">#23191A</color>
+  <color name="pt_light_surface_variant">#FEDADC</color>
+  <color name="pt_light_on_surface_variant">#594142</color>
+  <color name="pt_light_outline">#8D7072</color>
+  <color name="pt_light_outline_variant">#E0BEC0</color>
+  <color name="pt_light_inverse_surface">#392E2E</color>
+  <color name="pt_light_inverse_on_surface">#FFECED</color>
+  <color name="pt_light_inverse_primary">#FFB2B8</color>
+  <color name="pt_dark_primary">#FFB2B8</color>
+  <color name="pt_dark_on_primary">#67001E</color>
+  <color name="pt_dark_primary_container">#91002D</color>
+  <color name="pt_dark_on_primary_container">#FFDADB</color>
+  <color name="pt_dark_secondary">#F7B6BB</color>
+  <color name="pt_dark_on_secondary">#4E2428</color>
+  <color name="pt_dark_secondary_container">#68393E</color>
+  <color name="pt_dark_on_secondary_container">#FFDADB</color>
+  <color name="pt_dark_tertiary">#FFB2B8</color>
+  <color name="pt_dark_on_tertiary">#620D20</color>
+  <color name="pt_dark_tertiary_container">#812535</color>
+  <color name="pt_dark_on_tertiary_container">#FFDADB</color>
+  <color name="pt_dark_error">#FFB4AB</color>
+  <color name="pt_dark_on_error">#690005</color>
+  <color name="pt_dark_error_container">#93000A</color>
+  <color name="pt_dark_on_error_container">#FFDAD6</color>
+  <color name="pt_dark_surface">#1A1112</color>
+  <color name="pt_dark_surface_dim">#1A1112</color>
+  <color name="pt_dark_surface_bright">#423637</color>
+  <color name="pt_dark_surface_container_lowest">#150C0D</color>
+  <color name="pt_dark_surface_container_low">#23191A</color>
+  <color name="pt_dark_surface_container">#271D1E</color>
+  <color name="pt_dark_surface_container_high">#322728</color>
+  <color name="pt_dark_surface_container_highest">#3D3233</color>
+  <color name="pt_dark_on_surface">#F1DEDE</color>
+  <color name="pt_dark_surface_variant">#594142</color>
+  <color name="pt_dark_on_surface_variant">#E0BEC0</color>
+  <color name="pt_dark_outline">#A8898B</color>
+  <color name="pt_dark_outline_variant">#594142</color>
+  <color name="pt_dark_inverse_surface">#F1DEDE</color>
+  <color name="pt_dark_inverse_on_surface">#392E2E</color>
+  <color name="pt_dark_inverse_primary">#B71A41</color>
 </resources>

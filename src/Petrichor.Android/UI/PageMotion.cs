@@ -1,91 +1,116 @@
 using Android.Animation;
 using Android.Provider;
-using Android.Views.Animations;
+using AndroidX.Fragment.App;
+using Microsoft.Maui.Platform;
 using Petrichor.Mobile.Pages;
+using Petrichor.Mobile.Services;
 using NativeView=Android.Views.View;
 namespace Petrichor.Mobile.UI;
 
-// The navigation semaphore remains held until motion ends, including hardware Back.
+// Page motion follows the Material 3 transition patterns:
+// - push/pop: shared axis X, run by Shell's fragment transaction so both pages move together;
+// - full-screen pages (player, comments): rise over the current page, which stays drawn underneath;
+// - navigation bar destinations: fade through.
+// The navigation semaphore in Ui stays held until motion ends, including hardware Back.
 internal static class PageMotion
 {
     private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Page,TaskCompletionSource> entries=new();
-    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<PlayerPage,View> originCovers=new();
-    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<VisualElement,ValueAnimator> animations=new();
+    private static bool vertical;
     private static TaskCompletionSource BeginEntry(Page page){var done=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);entries.Remove(page);entries.Add(page,done);return done;}
     public static Task WaitForEntryAsync(Page page,CancellationToken token)=>entries.TryGetValue(page,out var done)?done.Task.WaitAsync(token):Task.CompletedTask;
     internal static bool Enabled => ValueAnimator.AreAnimatorsEnabled()&&Settings.Global.GetFloat(global::Android.App.Application.Context.ContentResolver,Settings.Global.AnimatorDurationScale,1)>0;
-    private static bool Vertical(Page page)=>page is PlayerPage or CommentsPage or LyricsPage;
-    private static void Reset(VisualElement view){view.Opacity=1;view.TranslationX=0;view.TranslationY=0;if(view.Handler?.PlatformView is NativeView native){native.Alpha=1;native.TranslationX=native.TranslationY=0;}}
+    private static bool Vertical(Page page)=>page is PlayerPage or CommentsPage or LyricsPage or FmPage or LoginPage;
+    // Shell resolves its navigation task when the fragment animation ends; never let a missed
+    // callback hold the navigation lock.
+    private static Task Bounded(Task navigation)=>Task.WhenAny(navigation,Task.Delay(1200));
+
     public static async Task PushAsync(Page page)
     {
-        if(page is PlayerPage originPage&&MiniPlayer.ActiveCover is{} origin){originCovers.Remove(originPage);originCovers.Add(originPage,origin);}
-        if(page is not ContentPage {Content:{} view}||!Enabled){await Shell.Current.Navigation.PushAsync(page,false);return;}
-        using var artwork=page is PlayerPage?ArtworkTransition.Capture(MiniPlayer.ActiveCover):null;
-        view.Opacity=0;
-        var ready=BeginEntry(page);
-        if(page is PlayerPage)view.TranslationY=artwork==null?48:0;
-        else if(Vertical(page))view.TranslationY=56;else view.TranslationX=48;
+        var navigation=Shell.Current.Navigation;
+        if(!Enabled){await navigation.PushAsync(page,false);return;}
+        var ready=BeginEntry(page);vertical=Vertical(page);
+        using var artwork=page is PlayerPage?ArtworkTransition.Capture(MiniPlayer.Shared?.ArtworkView,Md.ShapeSmall):null;
         try{
-            await Shell.Current.Navigation.PushAsync(page,false);
-            if(page is PlayerPage target&&artwork!=null)await artwork.PrepareAsync(target.TransitionCover);
-            await Task.WhenAll(Animate(view,true,Vertical(page)),page is PlayerPage player&&artwork!=null?artwork.AnimateTo(player.TransitionCover):Task.CompletedTask);
+            var push=navigation.PushAsync(page,true);
+            if(page is PlayerPage player&&artwork!=null)await artwork.AnimateTo(player.TransitionCover,player.TransitionRadius);
+            await Bounded(push);
         }
-        finally{Reset(view);ready.TrySetResult();}
+        finally{ready.TrySetResult();}
     }
     public static async Task PopAsync()
     {
-        var page=Shell.Current.Navigation.NavigationStack.LastOrDefault();
-        if(page is PlayerPage player&&Enabled){
-            var mini=(Shell.Current.Navigation.NavigationStack.TakeLast(2).FirstOrDefault() as BasePage)?.MiniCover;
-            if(mini==null&&originCovers.TryGetValue(player,out var origin))mini=origin;
-            if(mini!=null){using var artwork=ArtworkTransition.Capture(player.TransitionCover);
-                if(artwork!=null){await Shell.Current.Navigation.PopAsync(false);await artwork.AnimateTo(mini);return;}}
-        }
-        if(page is ContentPage {Content:{} view}&&Enabled){
-            try{await Animate(view,false,Vertical(page));await Shell.Current.Navigation.PopAsync(false);}
-            finally{Reset(view);}
-        }else await Shell.Current.Navigation.PopAsync(false);
-    }
-    public static async void ShowTab(Page? page,int direction=1)
-    {
-        if(page is not ContentPage {Content:{} view}||!Enabled)return;
-        var ready=BeginEntry(page);
-        view.TranslationX=40*direction;view.TranslationY=0;view.Opacity=.15;
-        try{await Animate(view,true,false,240);}
-        finally{if(!animations.TryGetValue(view,out _))Reset(view);ready.TrySetResult();}
-    }
-    // Animate native render properties, avoiding MAUI property propagation on
-    // every frame. Cached tab pages use the same path as newly constructed pages.
-    internal static async Task Animate(VisualElement view,bool entering,bool vertical,uint duration=280)
-    {
-        if(!Enabled){Reset(view);return;}
-        if(animations.TryGetValue(view,out var previous))previous.Cancel();
-        if(view.Handler?.PlatformView is not NativeView)await Task.Yield();
-        if(view.Handler?.PlatformView is not NativeView native){Reset(view);return;}
-        var start=entering?(vertical?view.TranslationY:view.TranslationX):0;
-        var alpha=view.Opacity;
-        var density=native.Resources!.DisplayMetrics!.Density;
-        var done=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        using var animator=ValueAnimator.OfFloat(0,1)!;
-        using var easing=entering?new PathInterpolator(.2f,0,0,1):new PathInterpolator(.4f,0,1,1);
-        animations.Remove(view);animations.Add(view,animator);
-        animator.SetDuration(entering?duration:180);animator.SetInterpolator(easing);
-        void Place(float t){
-            native.Alpha=(float)(entering?alpha+(1-alpha)*t:1-t);
-            var offset=(float)(entering?start*(1-t):36*t)*density;
-            if(vertical)native.TranslationY=offset;else native.TranslationX=offset;
-        }
-        animator.Update+=(_,_)=>Place(animator.AnimatedFraction);
-        animator.AnimationEnd+=(_,_)=>done.TrySetResult();
-        animator.AnimationCancel+=(_,_)=>done.TrySetResult();
-        Place(0);animator.Start();
-        try{await done.Task;}
-        finally{
-            if(animations.TryGetValue(view,out var current)&&ReferenceEquals(current,animator)){
-                animations.Remove(view);
-                view.Opacity=native.Alpha;
-                if(vertical)view.TranslationY=native.TranslationY/density;else view.TranslationX=native.TranslationX/density;
+        var navigation=Shell.Current.Navigation;var page=navigation.NavigationStack.LastOrDefault();
+        if(!Enabled||page==null){await navigation.PopAsync(false);return;}
+        vertical=Vertical(page);
+        var stack=navigation.NavigationStack;
+        // The cover flies back only when the revealed page shows the navigation bar and mini player,
+        // which Shell restores as soon as the previous page is displayed.
+        var toMini=stack.Count>1&&stack[^2] is BasePage{ShowsChrome:true}&&AppServices.Playback.Queue.Current!=null&&MiniPlayer.Shared!=null;
+        if(page is PlayerPage player&&toMini&&ArtworkTransition.Capture(player.TransitionCover,player.TransitionRadius) is{} artwork)
+        {
+            using(artwork){
+                var pop=navigation.PopAsync(true);
+                await artwork.AnimateTo(MiniPlayer.Shared!.ArtworkView,Md.ShapeSmall);
+                await Bounded(pop);
             }
+            return;
         }
+        await Bounded(navigation.PopAsync(true));
+    }
+    // Called by Shell for every animated fragment transaction.
+    public static void Configure(ShellNavigationSource source,FragmentTransaction transaction,Android.Views.ViewGroup? container)
+    {
+        var rise=vertical;vertical=false;
+        switch(source)
+        {
+            case ShellNavigationSource.Push:
+                transaction.SetCustomAnimations(rise?Resource.Animation.md_rise_enter:Resource.Animation.md_axis_enter,rise?Resource.Animation.md_hold:Resource.Animation.md_axis_exit);break;
+            case ShellNavigationSource.Pop:
+            case ShellNavigationSource.PopToRoot:
+                transaction.SetCustomAnimations(rise?0:Resource.Animation.md_axis_pop_enter,rise?Resource.Animation.md_rise_exit:Resource.Animation.md_axis_pop_exit);break;
+            default:
+                transaction.SetCustomAnimations(Resource.Animation.md_fade_enter,Resource.Animation.md_fade_exit);break;
+        }
+        // Shell paints the page container black while fragments animate. The fades in these
+        // transitions would expose it, so repaint it with the surface right after Shell does.
+        if(container!=null){var surface=Ui.Color("Surface").ToPlatform();container.Post(()=>{if(container.Background!=null)container.SetBackgroundColor(surface);});}
+    }
+    // Reselecting the current destination returns to its root, then to the top of the page.
+    public static void Reselect(ShellSection section)
+    {
+        if(section.Stack.Count>1){_=Ui.PopToRoot(section);return;}
+        if(Shell.Current?.CurrentPage is BasePage page)page.ScrollToTop();
+    }
+    // Fade through: the incoming destination fades in while scaling up from 92%.
+    public static void FadeThrough(Page? page)
+    {
+        if(page is not ContentPage{Content:{} view}||!Enabled)return;
+        var ready=BeginEntry(page);
+        void Run()
+        {
+            if(view.Handler?.PlatformView is not NativeView native){ready.TrySetResult();return;}
+            native.Animate()?.Cancel();native.Alpha=0;native.ScaleX=native.ScaleY=.92f;
+            native.Animate()!.Alpha(1).ScaleX(1).ScaleY(1).SetStartDelay(Md.Short2-10).SetDuration(Md.Medium1).SetInterpolator(Md.NativeEmphasizedDecelerate())
+                .WithEndAction(new Java.Lang.Runnable(()=>{native.Alpha=1;native.ScaleX=native.ScaleY=1;ready.TrySetResult();})).Start();
+        }
+        if(view.Handler!=null)Run();else view.Dispatcher.Dispatch(Run);
+        // A cancelled animation skips its end action; page loading must not wait on it.
+        _=Task.Delay((int)Md.Long2+200).ContinueWith(_=>ready.TrySetResult(),TaskScheduler.Default);
+    }
+    // Native fade/rise for content that replaces a placeholder (lists after their skeleton).
+    public static void Reveal(VisualElement view,double distance=12)
+    {
+        if(!Enabled||view.Handler?.PlatformView is not NativeView native)return;
+        var density=native.Resources!.DisplayMetrics!.Density;
+        native.Animate()?.Cancel();native.Alpha=0;native.TranslationY=(float)(distance*density);
+        native.Animate()!.Alpha(1).TranslationY(0).SetDuration(Md.Medium2).SetInterpolator(Md.NativeEmphasizedDecelerate()).Start();
+    }
+    // Cross-fade between two panes that share one slot (e.g. login methods).
+    public static void Swap(VisualElement outgoing,VisualElement incoming)
+    {
+        outgoing.IsVisible=false;incoming.IsVisible=true;
+        if(!Enabled)return;
+        incoming.Opacity=0;incoming.TranslationY=8;
+        _=incoming.FadeToAsync(1,Md.Medium1,Md.StandardDecelerate);_=incoming.TranslateToAsync(0,0,Md.Medium2,Md.EmphasizedDecelerate);
     }
 }

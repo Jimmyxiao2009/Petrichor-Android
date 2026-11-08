@@ -3,28 +3,31 @@ using Petrichor.Mobile.UI;
 namespace Petrichor.Mobile.Pages;
 public sealed class DiagnosticsPage : BasePage
 {
-    private readonly Label summary = Ui.Text("", 12, "Muted");
+    private readonly Label summary = Ui.Text("", TypeRole.BodySmall, "OnSurfaceVariant");
     private readonly Editor entries = new() { IsReadOnly = true, AutoSize = EditorAutoSizeOption.Disabled, HeightRequest = 480, FontSize = 11, FontFamily = "monospace" };
     public DiagnosticsPage() : base("播放诊断")
     {
-        var stack = Stack();stack.Add(Ui.Heading("播放诊断日志", "记录中断与恢复，帮助定位偶发问题。"));
-        var enabled = new Switch { IsToggled = PlaybackDiagnostics.Enabled };
+        var stack = Stack();
+        var intro = Ui.Text("记录中断与恢复，帮助定位偶发问题。", TypeRole.BodyMedium, "OnSurfaceVariant"); intro.Margin = new Thickness(0, 0, 0, 16); stack.Add(intro);
+        var enabled = new Switch { IsToggled = PlaybackDiagnostics.Enabled, VerticalOptions = LayoutOptions.Center };
         SemanticProperties.SetDescription(enabled, "记录播放诊断日志");
         enabled.Toggled += (_, e) => PlaybackDiagnostics.SetEnabled(e.Value);
-        stack.Add(DesignControls.SettingRow("记录播放诊断日志", "只保存在本机，不记录账号凭证和播放链接", enabled));
-        summary.Margin = Ui.Inset(0, 12); stack.Add(summary);
-        var actions = new Grid { ColumnDefinitions = [new(GridLength.Star),new(GridLength.Star),new(GridLength.Star)], ColumnSpacing = 6 };
-        actions.Add(Ui.Button("刷新日志", () => Run(Refresh), "tonal"));
-        actions.Add(Ui.Button("导出日志", () => Run(async () => {
+        stack.Add(DesignControls.Group(DesignControls.SettingItem("记录播放诊断日志", "只保存在本机，不记录账号凭证和播放链接", enabled, "info", () => { enabled.IsToggled = !enabled.IsToggled; return Task.CompletedTask; })));
+        summary.Margin = new Thickness(0, 16); stack.Add(summary);
+        var actions = new FlexLayout { Direction = Microsoft.Maui.Layouts.FlexDirection.Row, Wrap = Microsoft.Maui.Layouts.FlexWrap.Wrap };
+        actions.Add(Ui.Button("刷新", () => Run(Refresh), "tonal", "history"));
+        actions.Add(Ui.Button("导出", () => Run(async () => {
             var path = await PlaybackDiagnostics.ExportAsync();
             await Share.Default.RequestAsync(new ShareFileRequest { Title = "Petrichor 播放诊断", File = new ShareFile(path) });
-        }), "tonal"), 1);
-        actions.Add(Ui.Button("清空日志", () => Run(async () => {
-            if (await DisplayAlertAsync("清空诊断日志", "将删除这台设备上的播放诊断记录。", "清空", "取消")) { await PlaybackDiagnostics.ClearAsync(); await Refresh(); }
-        }), "text"), 2);
+        }), "tonal", "share"));
+        actions.Add(Ui.Button("清空", () => Run(async () => {
+            if (await Dialogs.Confirm("清空诊断日志？", "将删除这台设备上的播放诊断记录。", "清空", destructive: true, icon: "delete")) { await PlaybackDiagnostics.ClearAsync(); await Refresh(); }
+        }), "text", "delete"));
+        foreach (var button in actions.Children.OfType<Button>()) button.Margin = new Thickness(0, 0, 8, 0);
         stack.Add(actions);
-        var note = Ui.Text("显示最近 100 条。导出包含最多约 1 MB 的记录，可在出现问题后分享给排查人员。", 12, "Muted");note.Margin = Ui.Inset(0,12);stack.Add(note);
-        entries.SetDynamicResource(Editor.TextColorProperty, "OnSurface");entries.SetDynamicResource(Editor.BackgroundColorProperty, "SurfaceHigh");stack.Add(entries);
+        var note = Ui.Text("显示最近 100 条。导出包含最多约 1 MB 的记录，可在出现问题后分享给排查人员。", TypeRole.BodySmall, "OnSurfaceVariant"); note.Margin = new Thickness(0, 12); stack.Add(note);
+        entries.SetDynamicResource(Editor.TextColorProperty, "OnSurface");
+        var log = Ui.Card(entries, "SurfaceContainerHighest", Md.ShapeMedium, new Thickness(12, 8)); stack.Add(log);
         Body.Content = Scroll(stack);
     }
     protected override bool RefreshOnAppear => true;

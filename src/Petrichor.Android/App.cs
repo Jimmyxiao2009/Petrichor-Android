@@ -12,14 +12,14 @@ public sealed class App : Application
         InputStyle(typeof(NativeEntry),NativeEntry.TextColorProperty,NativeEntry.PlaceholderColorProperty);
         InputStyle(typeof(Editor),Editor.TextColorProperty,Editor.PlaceholderColorProperty);
         InputStyle(typeof(Picker),Picker.TextColorProperty,Picker.TitleColorProperty);
-        var toggle=new Style(typeof(Switch));toggle.Setters.AddDynamicResource(Switch.OnColorProperty,"Primary");toggle.Setters.AddDynamicResource(Switch.ThumbColorProperty,"OnPrimary");Resources.Add(toggle);
-        var check=new Style(typeof(CheckBox));check.Setters.AddDynamicResource(CheckBox.ColorProperty,"Primary");Resources.Add(check);
-        ThemeColors.Apply();
+        // Switches, check boxes and radio buttons keep the Material 3 theme tints from the activity
+        // theme overlay; a single MAUI color would flatten their selected/unselected states.
         UserAppTheme = (AppTheme)Preferences.Get("theme", 0);
+        ThemeColors.Apply();
         RequestedThemeChanged += (_, _) => ThemeColors.Apply();
         void InputStyle(Type type,BindableProperty text,BindableProperty hint)
         {
-            var style=new Style(type);style.Setters.AddDynamicResource(text,"OnSurface");style.Setters.AddDynamicResource(hint,"Muted");if(type==typeof(Entry))style.Setters.Add(new Setter{Property=Entry.VerticalTextAlignmentProperty,Value=TextAlignment.Center});Resources.Add(style);
+            var style=new Style(type);style.Setters.AddDynamicResource(text,"OnSurface");style.Setters.AddDynamicResource(hint,"OnSurfaceVariant");if(type==typeof(Entry))style.Setters.Add(new Setter{Property=Entry.VerticalTextAlignmentProperty,Value=TextAlignment.Center});Resources.Add(style);
         }
     }
     protected override Window CreateWindow(IActivationState? activationState) { ThemeColors.Apply(); return new(new AppShell()); }
@@ -33,25 +33,22 @@ public sealed class AppShell : Shell
 
         SetNavBarIsVisible(this, false);
         this.SetDynamicResource(Shell.TabBarBackgroundColorProperty,"SurfaceContainer");
-        this.SetDynamicResource(Shell.TabBarForegroundColorProperty,"Primary");
-        this.SetDynamicResource(Shell.TabBarUnselectedColorProperty,"Muted");
+        this.SetDynamicResource(Shell.TabBarForegroundColorProperty,"OnSecondaryContainer");
+        this.SetDynamicResource(Shell.TabBarTitleColorProperty,"OnSurface");
+        this.SetDynamicResource(Shell.TabBarUnselectedColorProperty,"OnSurfaceVariant");
         var tabs = new TabBar {Route="main"};
-        Add("discover","主页","home",()=>new DiscoverPage());
-        Add("podcasts","探索","explore",()=>new ExplorePage());
-        Add("library","我的","library",()=>new LibraryPage());
+        Add("discover","主页",()=>new DiscoverPage());
+        Add("podcasts","探索",()=>new ExplorePage());
+        Add("library","我的",()=>new LibraryPage());
         Items.Add(tabs);
-        Page? lastRoot = null;
-        var lastTab = 0;
-        Navigated += (_, _) => {
-            var page = CurrentPage;
-            if (page == null || Navigation.NavigationStack.Count > 1) return;
-            var index = tabs.Items.IndexOf(tabs.CurrentItem);
-            if (!ReferenceEquals(lastRoot, page)) PageMotion.ShowTab(page, index < lastTab ? -1 : 1);
-            lastRoot = page; lastTab = index;
+        Navigated += (_, e) => {
+            if (e.Source == ShellNavigationSource.ShellSectionChanged) PageMotion.FadeThrough(CurrentPage);
+            ThemeColors.UpdateSystemBars(); MiniPlayer.Refresh();
         };
-        void Add(string route,string title,string icon,Func<ContentPage> factory)
+        // Icons are drawn natively by NavigationBar so the selected destination can use the filled glyph.
+        void Add(string route,string title,Func<ContentPage> factory)
         {
-            var tab = new Tab {Route=route+"Tab",Title=title,Icon=Ui.IconSource(icon)};
+            var tab = new Tab {Route=route+"Tab",Title=title};
             tab.Items.Add(new ShellContent {Route=route,ContentTemplate=new DataTemplate(factory)});
             tabs.Items.Add(tab);
         }

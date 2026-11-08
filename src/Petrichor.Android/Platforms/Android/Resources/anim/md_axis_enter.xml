@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared axis X, forward. The first child must last the whole transition: MAUI completes navigation when it ends. --><set xmlns:android="http://schemas.android.com/apk/res/android" android:shareInterpolator="false"><translate android:fromXDelta="8%" android:toXDelta="0%" android:duration="350" android:interpolator="@interpolator/md_emphasized" /><alpha android:fromAlpha="0" android:toAlpha="1" android:startOffset="105" android:duration="245" android:interpolator="@interpolator/md_standard_decelerate" /></set>

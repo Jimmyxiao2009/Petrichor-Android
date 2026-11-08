@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Applied on top of MAUI's Material 3 theme when dynamic color is off or unavailable, so native
+       Material components (switches, sheets, dialogs, snackbars, navigation bar) share the app palette. -->
+  <style name="ThemeOverlay.Petrichor.Light" parent="">
+    <item name="isLightTheme">true</item>
+    <item name="colorPrimary">@color/pt_light_primary</item>
+    <item name="colorOnPrimary">@color/pt_light_on_primary</item>
+    <item name="colorPrimaryContainer">@color/pt_light_primary_container</item>
+    <item name="colorOnPrimaryContainer">@color/pt_light_on_primary_container</item>
+    <item name="colorPrimaryInverse">@color/pt_light_inverse_primary</item>
+    <item name="colorSecondary">@color/pt_light_secondary</item>
+    <item name="colorOnSecondary">@color/pt_light_on_secondary</item>
+    <item name="colorSecondaryContainer">@color/pt_light_secondary_container</item>
+    <item name="colorOnSecondaryContainer">@color/pt_light_on_secondary_container</item>
+    <item name="colorTertiary">@color/pt_light_tertiary</item>
+    <item name="colorOnTertiary">@color/pt_light_on_tertiary</item>
+    <item name="colorTertiaryContainer">@color/pt_light_tertiary_container</item>
+    <item name="colorOnTertiaryContainer">@color/pt_light_on_tertiary_container</item>
+    <item name="colorError">@color/pt_light_error</item>
+    <item name="colorOnError">@color/pt_light_on_error</item>
+    <item name="colorErrorContainer">@color/pt_light_error_container</item>
+    <item name="colorOnErrorContainer">@color/pt_light_on_error_container</item>
+    <item name="android:colorBackground">@color/pt_light_surface</item>
+    <item name="colorOnBackground">@color/pt_light_on_surface</item>
+    <item name="colorSurface">@color/pt_light_surface</item>
+    <item name="colorOnSurface">@color/pt_light_on_surface</item>
+    <item name="colorSurfaceVariant">@color/pt_light_surface_variant</item>
+    <item name="colorOnSurfaceVariant">@color/pt_light_on_surface_variant</item>
+    <item name="colorSurfaceInverse">@color/pt_light_inverse_surface</item>
+    <item name="colorOnSurfaceInverse">@color/pt_light_inverse_on_surface</item>
+    <item name="colorSurfaceBright">@color/pt_light_surface_bright</item>
+    <item name="colorSurfaceDim">@color/pt_light_surface_dim</item>
+    <item name="colorSurfaceContainerLowest">@color/pt_light_surface_container_lowest</item>
+    <item name="colorSurfaceContainerLow">@color/pt_light_surface_container_low</item>
+    <item name="colorSurfaceContainer">@color/pt_light_surface_container</item>
+    <item name="colorSurfaceContainerHigh">@color/pt_light_surface_container_high</item>
+    <item name="colorSurfaceContainerHighest">@color/pt_light_surface_container_highest</item>
+    <item name="colorOutline">@color/pt_light_outline</item>
+    <item name="colorOutlineVariant">@color/pt_light_outline_variant</item>
+    <item name="colorAccent">@color/pt_light_primary</item>
+    <item name="colorControlActivated">@color/pt_light_primary</item>
+    <item name="colorControlNormal">@color/pt_light_on_surface_variant</item>
+  </style>
+  <style name="ThemeOverlay.Petrichor.Dark" parent="">
+    <item name="isLightTheme">false</item>
+    <item name="colorPrimary">@color/pt_dark_primary</item>
+    <item name="colorOnPrimary">@color/pt_dark_on_primary</item>
+    <item name="colorPrimaryContainer">@color/pt_dark_primary_container</item>
+    <item name="colorOnPrimaryContainer">@color/pt_dark_on_primary_container</item>
+    <item name="colorPrimaryInverse">@color/pt_dark_inverse_primary</item>
+    <item name="colorSecondary">@color/pt_dark_secondary</item>
+    <item name="colorOnSecondary">@color/pt_dark_on_secondary</item>
+    <item name="colorSecondaryContainer">@color/pt_dark_secondary_container</item>
+    <item name="colorOnSecondaryContainer">@color/pt_dark_on_secondary_container</item>
+    <item name="colorTertiary">@color/pt_dark_tertiary</item>
+    <item name="colorOnTertiary">@color/pt_dark_on_tertiary</item>
+    <item name="colorTertiaryContainer">@color/pt_dark_tertiary_container</item>
+    <item name="colorOnTertiaryContainer">@color/pt_dark_on_tertiary_container</item>
+    <item name="colorError">@color/pt_dark_error</item>
+    <item name="colorOnError">@color/pt_dark_on_error</item>
+    <item name="colorErrorContainer">@color/pt_dark_error_container</item>
+    <item name="colorOnErrorContainer">@color/pt_dark_on_error_container</item>
+    <item name="android:colorBackground">@color/pt_dark_surface</item>
+    <item name="colorOnBackground">@color/pt_dark_on_surface</item>
+    <item name="colorSurface">@color/pt_dark_surface</item>
+    <item name="colorOnSurface">@color/pt_dark_on_surface</item>
+    <item name="colorSurfaceVariant">@color/pt_dark_surface_variant</item>
+    <item name="colorOnSurfaceVariant">@color/pt_dark_on_surface_variant</item>
+    <item name="colorSurfaceInverse">@color/pt_dark_inverse_surface</item>
+    <item name="colorOnSurfaceInverse">@color/pt_dark_inverse_on_surface</item>
+    <item name="colorSurfaceBright">@color/pt_dark_surface_bright</item>
+    <item name="colorSurfaceDim">@color/pt_dark_surface_dim</item>
+    <item name="colorSurfaceContainerLowest">@color/pt_dark_surface_container_lowest</item>
+    <item name="colorSurfaceContainerLow">@color/pt_dark_surface_container_low</item>
+    <item name="colorSurfaceContainer">@color/pt_dark_surface_container</item>
+    <item name="colorSurfaceContainerHigh">@color/pt_dark_surface_container_high</item>
+    <item name="colorSurfaceContainerHighest">@color/pt_dark_surface_container_highest</item>
+    <item name="colorOutline">@color/pt_dark_outline</item>
+    <item name="colorOutlineVariant">@color/pt_dark_outline_variant</item>
+    <item name="colorAccent">@color/pt_dark_primary</item>
+    <item name="colorControlActivated">@color/pt_dark_primary</item>
+    <item name="colorControlNormal">@color/pt_dark_on_surface_variant</item>
+  </style>
+</resources>

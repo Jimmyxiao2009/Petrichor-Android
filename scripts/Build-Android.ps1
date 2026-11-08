@@ -5,6 +5,9 @@ param(
     [string]$JavaSdkDirectory='C:\Program Files\Android\openjdk\jdk-21.0.8'
 )
 $ErrorActionPreference='Stop'
+# 环境变量会被 MSBuild 映射成同名属性。部分虚拟化代理会写入 Version=V3.4.2.0，
+# 使 NuGet 读到非法项目版本并静默还原失败（NU1105/MSB4181）；版本只取项目文件。
+Remove-Item Env:Version -ErrorAction SilentlyContinue
 $sourceRoot=[IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))
 $buildRoot=$sourceRoot
 $ownedDrive=$null

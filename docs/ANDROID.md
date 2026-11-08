@@ -28,9 +28,11 @@
 
 ## 构建
 
-需要 .NET 10 SDK、Android 工作负载、Android SDK 36 和 JDK 21。此机器已具备这些构建依赖。
+需要 .NET 10 SDK、`maui-android` 工作负载、Android SDK 36（platform、build-tools、platform-tools）和 JDK 21。本机已按 [DEV-ENVIRONMENT.md](DEV-ENVIRONMENT.md) 配置完毕，换机或重装后先执行下面的检查：
 
 ```powershell
+# 检查工具链：
+pwsh -NoProfile -File scripts/Check-DevEnvironment.ps1
 pwsh -NoProfile -File scripts/Build-Android.ps1
 # 完全重新生成：
 pwsh -NoProfile -File scripts/Build-Android.ps1 -Rebuild

@@ -5,7 +5,7 @@
     <UseMaui>true</UseMaui><UseMaterial3>true</UseMaterial3><SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <ApplicationTitle>Petrichor</ApplicationTitle><ApplicationId>app.petrichor.music</ApplicationId>
-    <ApplicationDisplayVersion>1.0.10</ApplicationDisplayVersion><ApplicationVersion>11</ApplicationVersion>
+    <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion><ApplicationVersion>13</ApplicationVersion>
     <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
     <AndroidPackageFormats>apk</AndroidPackageFormats>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk><AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
@@ -22,7 +22,7 @@
     <!-- Keep convention-based JSON model members used by the shared API client. -->
     <TrimmerRootAssembly Include="Petrichor.Core" />
     <MauiIcon Include="Resources/AppIcon/appicon.png" />
-    <MauiSplashScreen Include="Resources/Splash/splash.png" Color="#FFFBFC" BaseSize="96,96" />
+    <MauiSplashScreen Include="Resources/Splash/splash.png" Color="#FFF8F7" BaseSize="96,96" />
     <MauiImage Include="Resources/Images/*" /><MauiFont Include="Resources/Fonts/*" />
     <MauiAsset Include="Resources/Raw/**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
